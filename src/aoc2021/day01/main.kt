@@ -1,14 +1,14 @@
 package aoc2021.day01
 
-import readInput
+import readIntInput
 
 fun main() {
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput( 2021, 1,"Day01_test").map { it.toInt() }
+    val testInput = readIntInput( 2021, 1,"Day01_test")
     check(calculatePartOne(testInput) == 7)
     check(calculatePartTwo(testInput) == 5)
 
-    val input = readInput(2021, 1,"Day01").map { it.toInt() }
+    val input = readIntInput(2021, 1,"Day01")
     println(calculatePartOne(input))
     println(calculatePartTwo(input))
 }

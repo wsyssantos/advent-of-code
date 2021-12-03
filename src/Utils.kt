@@ -8,6 +8,9 @@ import java.security.MessageDigest
 fun readInput(year: Int, day: Int, name: String) =
     File("src/main/resources/aoc$year/day${day}", "$name.txt").readLines()
 
+fun readIntInput(year: Int, day: Int, name: String) =
+        readInput(year, day, name).map { it.toInt() }
+
 /**
  * Converts string to md5 hash.
  */
