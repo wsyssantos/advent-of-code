@@ -15,11 +15,12 @@ fun main() {
 fun calculatePartOne(input: List<String>) : Int {
     var gammaRate = ""
     var epsilonRate = ""
-    var gamaRateCount = mutableMapOf<Int, Int?>(0 to 0, 1 to 0)
     val childSize = input.first().length
     (0 until childSize).onEach { childPos ->
-        input.forEach { child ->
-            val bit = child[childPos].toString().toInt()
+        var gamaRateCount = mutableMapOf<Int, Int?>(0 to 0, 1 to 0)
+        input.map { child ->
+            child[childPos].toString().toInt()
+        }.forEach { bit ->
             gamaRateCount[bit] = gamaRateCount[bit]?.plus(1)
         }
         gammaRate += gamaRateCount.getKeyFrom(gamaRateCount.maxOf { it.value ?: 0 })
