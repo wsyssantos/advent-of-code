@@ -84,9 +84,7 @@ data class Line(val startPoint: Point, val endPoint: Point) {
 data class Point(val x: Int, val y: Int)
 
 private fun String.toPoint() : Point =
-    this.split(",").let {
-        Point(it.first().toInt(), it[1].toInt())
-    }
+    this.split(",").map { it.toInt() }.let { (x, y) -> Point(x,y) }
 
 private infix fun Int.range(to: Int) : List<Int> =
     if (this <= to) (this .. to).toList()
