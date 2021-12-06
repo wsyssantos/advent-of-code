@@ -1,25 +1,32 @@
 package aoc2021.day06
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
 import readInput
-import java.util.stream.Stream
-import kotlin.math.max
 import kotlin.system.measureTimeMillis
 
 fun main() = runBlocking {
     val testInput = readInput(2021, 6,"test").sanitize()
-//    check(calculatePart2(testInput.asSequence(), 18) == 26L)
-//    check(calculatePart2(testInput.asSequence(), 80) == 5934L)
-    check(calculatePart2(testInput, 256) == 26984457539)
+//    check(calculatePart2(testInput, 18) == 26L)
+//    check(calculatePart2(testInput, 80) == 5934L)
+//    check(calculatePart2(testInput, 256) == 26984457539)
 //    check(calculatePart2(testInput.asFlow(), 18) == 26L)
 //    check(calculatePart2(testInput, 256) == 26984457539)
 
 //    launch(Dispatchers.Default) {
 //        check(calculatePart2(testInput.asSequence(), 1, 256) == 26984457539)
 //    }
-//    val input = readInput(2021, 6,"game").sanitize()
+    measureTimeMillis {
+        println(calculatePart2(listOf(1), 192))
+    }.also {
+        println("$it milliseconds")
+    }
+
+//    524288
+//    4058 milliseconds
+
+    val input = readInput(2021, 6,"game").sanitize()
 //    print(calculatePart1(input, 80))
+//    print(calculatePart2(listOf(1), 256))
 }
 
 private fun calculatePart1(list: List<Int>, days: Int) : Int =
@@ -38,29 +45,24 @@ private fun calculatePart1(list: List<Int>, days: Int) : Int =
 
 private suspend fun calculatePart2(list: List<Int>, days: Int) : Long =
     list.map {
-        GlobalScope.async { calculateSequence(sequenceOf(it), maxDays = days) }
+        awaitAsync { calculateSequenceAsync(it, maxDays = days) }
     }.awaitAll().sum()
 
-private tailrec suspend fun calculateSequence(list: Sequence<Int>, day: Int = 1, maxDays: Int) : Long {
+private tailrec suspend fun calculateSequenceAsync(number: Int, day: Int = 1, maxDays: Int) : Long = withContext(Dispatchers.Unconfined) {
     if (day <= maxDays) {
-        val newFishCount = list.filter { it == 0 }.count()
-        list.map {
-            val newValue = it - 1
-            if (newValue >= 0) newValue else 6
-        }.let { newSequence ->
-            val newStream = sequence {
-                yieldAll(newSequence)
-                (0 until newFishCount).forEach { _ ->
-                    yield(8)
-                }
-            }
-            return calculateSequence(newStream, day + 1, maxDays)
+        return@withContext if (number > 0) {
+            calculateSequenceAsync(number - 1, day + 1, maxDays)
+        } else {
+            val first = calculateSequenceAsync(6, day + 1, maxDays)
+            val second = calculateSequenceAsync(6, day + 1, maxDays)
+            first + second
         }
-    } else {
-        return list.count().toLong()
     }
+    return@withContext 1L
 }
 
+private fun <T> awaitAsync(block: suspend CoroutineScope.() -> T) : Deferred<T> =
+    GlobalScope.async(Dispatchers.Unconfined, block = block)
 
 private fun List<String>.sanitize() : List<Int> =
     this.first().split(",").map { it.toInt() }
