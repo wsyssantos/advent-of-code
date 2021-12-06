@@ -11,7 +11,7 @@ fun main() = runBlocking {
     val testInput = readInput(2021, 6,"test").sanitize()
 //    check(calculatePart2(testInput.asSequence(), 18) == 26L)
 //    check(calculatePart2(testInput.asSequence(), 80) == 5934L)
-    check(calculatePart2(testInput.asSequence(), 256) == 26984457539)
+    check(calculatePart2(testInput, 256) == 26984457539)
 //    check(calculatePart2(testInput.asFlow(), 18) == 26L)
 //    check(calculatePart2(testInput, 256) == 26984457539)
 
@@ -36,12 +36,10 @@ private fun calculatePart1(list: List<Int>, days: Int) : Int =
         }
     }.size
 
-private suspend fun calculatePart2(list: Sequence<Int>, days: Int) : Long =
+private suspend fun calculatePart2(list: List<Int>, days: Int) : Long =
     list.map {
         GlobalScope.async { calculateSequence(sequenceOf(it), maxDays = days) }
-    }.sumOf {
-        it.await()
-    }
+    }.awaitAll().sum()
 
 private tailrec suspend fun calculateSequence(list: Sequence<Int>, day: Int = 1, maxDays: Int) : Long {
     if (day <= maxDays) {
