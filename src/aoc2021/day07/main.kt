@@ -2,6 +2,7 @@ package aoc2021.day07
 
 import module
 import readInput
+import kotlin.system.measureTimeMillis
 
 fun main() {
     val testInput = readInput(2021, 7,"test").sanitize()
@@ -33,9 +34,7 @@ private fun List<Int>.calculate(fuelCalc: (Int, Int) -> Int) : Int {
 
 private fun progression(from: Int, to: Int) : Int {
     val max = (from - to).module()
-    return (1 .. max).sumOf { step ->
-        step
-    }
+    return (max * (max + 1)) / 2
 }
 
 private fun List<String>.sanitize() : List<Int> =
