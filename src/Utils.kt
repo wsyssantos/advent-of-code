@@ -1,3 +1,4 @@
+
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -15,3 +16,9 @@ fun readIntInput(year: Int, day: Int, name: String) =
  * Converts string to md5 hash.
  */
 fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray())).toString(16)
+
+fun Int.module() = if (this < 0) this * -1 else this
+
+infix fun Int.range(to: Int) : List<Int> =
+    if (this <= to) (this .. to).toList()
+    else (this downTo to).toList()

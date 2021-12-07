@@ -1,5 +1,7 @@
 package aoc2021.day05
 
+import module
+import range
 import readInput
 import kotlin.math.max
 
@@ -86,9 +88,4 @@ data class Point(val x: Int, val y: Int)
 private fun String.toPoint() : Point =
     this.split(",").map { it.toInt() }.let { (x, y) -> Point(x,y) }
 
-private infix fun Int.range(to: Int) : List<Int> =
-    if (this <= to) (this .. to).toList()
-    else (this downTo to).toList()
-
-private fun Int.module() = if (this < 0) this * -1 else this
 
