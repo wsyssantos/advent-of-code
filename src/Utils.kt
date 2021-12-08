@@ -22,3 +22,11 @@ fun Int.module() = if (this < 0) this * -1 else this
 infix fun Int.range(to: Int) : List<Int> =
     if (this <= to) (this .. to).toList()
     else (this downTo to).toList()
+
+fun <T> notNull(a: T?, b: T?, c: T?, d: T?, block: (T,T,T,T) -> Unit) {
+    if (a != null && b != null && c != null && d != null) {
+        block(a, b, c, d)
+    }
+}
+
+fun String.getStr(index: Int) : String = this[index].toString()
