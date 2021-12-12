@@ -25,15 +25,6 @@ private fun calculatePart2(input: Array<Point>) : Int {
     return step
 }
 
-private fun Array<Point>.print() {
-    (0..9).forEach { x ->
-        (0..9).forEach { y ->
-            print(this.getValue(x, y))
-        }
-        println()
-    }
-}
-
 private fun Array<Point>.increment(checkHighlights: Boolean = false) {
     this.forEach {
         if (it.value != 10) {
