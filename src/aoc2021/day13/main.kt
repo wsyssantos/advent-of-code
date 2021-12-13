@@ -1,7 +1,6 @@
 package aoc2021.day13
 
 import readInput
-import javax.swing.text.Position
 
 fun main() {
     val (testInstructions, testPoints) = readInput(2021, 13, "test").sanitize()
