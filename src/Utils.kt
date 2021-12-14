@@ -2,6 +2,7 @@
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
+import kotlin.system.measureTimeMillis
 
 /**
  * Reads lines from the given input txt file.
@@ -30,3 +31,8 @@ fun <T> notNull(a: T?, b: T?, c: T?, d: T?, block: (T,T,T,T) -> Unit) {
 }
 
 fun String.getStr(index: Int) : String = this[index].toString()
+
+inline fun measureTimeMillisAndPrint(block: () -> Unit) =
+    measureTimeMillis(block).also {
+        println("$it milli")
+    }
