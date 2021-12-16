@@ -1,6 +1,7 @@
 package aoc2021.day15
 
 import getUniqueValuesFromPairs
+import measureTimeMillisAndPrint
 import readInput
 import java.util.*
 
@@ -49,8 +50,8 @@ private fun calculatePart1(input: Array<Point>) : Int {
             weights.putIfAbsent(Pair(point, adjacent), adjacent.value)
         }
     }
-    val start = input.getValue(0, 0)!!
-    val end = input.getValue(input.maxOf { it.x }, input.maxOf { it.y })!!
+    val start = input.value(0, 0)
+    val end = input.value(input.maxOf { it.x }, input.maxOf { it.y })
     val shortestPathTree = dijkstra(Graph(weights), start, end)
     val shortestPath = shortestPath(shortestPathTree, start, end)
     return shortestPath.drop(1).sumOf {
@@ -70,6 +71,9 @@ private fun Point.getAdjacentPoints(input: Array<Point>) =
         val right = input.getValue(rightPos, y)
         listOfNotNull(bottom, top, right, left).toTypedArray()
     }
+
+private fun Array<Point>.value(x: Int, y: Int): Point =
+    this.first { it.x == x && it.y == y }
 
 private fun List<Point>.value(x: Int, y: Int): Point =
     this.first { it.x == x && it.y == y }
@@ -113,19 +117,18 @@ fun dijkstra(graph: Graph<Point>, start: Point, end: Point): Map<Point, Point?> 
     val s = mutableSetOf<Point>()
     val previous: MutableMap<Point, Point?> = graph.vertices.associateWith { null }.toMutableMap()
 
-    val queueDelta = PriorityQueue<Point>(compareBy { it.delta })
-    graph.vertices.forEach {
-        if (it == start) {
-            it.delta = 0
+    val queueDelta = PriorityQueue<Point>(compareBy { it.delta }).apply {
+        graph.vertices.forEach {
+            if (it == start) {
+                it.delta = 0
+            }
+            add(it)
         }
-        queueDelta.add(it)
     }
 
     while (true) {
         val v: Point = queueDelta.poll()
-
         if (v == end) break
-
         graph.edges.getValue(v).minus(s).forEach { neighbour ->
             val newPath = v.delta + graph.weights.getValue(Pair(v, neighbour))
 
