@@ -36,3 +36,14 @@ inline fun measureTimeMillisAndPrint(block: () -> Unit) =
     measureTimeMillis(block).also {
         println("$it milli")
     }
+
+fun <T> List<Pair<T, T>>.getUniqueValuesFromPairs(): Set<T> = this
+    .map { (a, b) -> listOf(a, b) }
+    .flatten()
+    .toSet()
+
+fun <T> List<Pair<T, T>>.getUniqueValuesFromPairs(predicate: (T) -> Boolean): Set<T> = this
+    .map { (a, b) -> listOf(a, b) }
+    .flatten()
+    .filter(predicate)
+    .toSet()

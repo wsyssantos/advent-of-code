@@ -33,7 +33,7 @@ private fun calculatePart1(input: String, dict: Map<String, Char>, step: Int = 1
 
 private fun calculatePart2(input: String, dict: Map<String, Char>) : Long  {
     val totalCountMap = input.groupBy { it }.mapValues { it.value.size.toLong() }.toMutableMap()
-    var pairs = input.windowed(2).associateWith { 1L }
+    var pairs = input.windowed(2).groupBy { it }.mapValues { it.value.size.toLong() }
     (1..40).onEach {
         pairs = buildMap {
             pairs.onEach { (key, value) ->
