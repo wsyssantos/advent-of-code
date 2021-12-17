@@ -1,5 +1,6 @@
 package aoc2021.day03
 
+import bitToInt
 import readInput
 
 fun main() {
@@ -64,8 +65,6 @@ private fun defineNextListByFactor(factor: Int, oneList: List<String>, zeroList:
             oneList
         }
     }
-
-private fun String.bitToInt() = Integer.parseInt(this, 2)
 
 private fun Map<Int, Any?>.getKeyFrom(target: Int) : String =
     this.filter { map ->

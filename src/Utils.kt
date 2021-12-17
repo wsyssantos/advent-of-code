@@ -47,3 +47,8 @@ fun <T> List<Pair<T, T>>.getUniqueValuesFromPairs(predicate: (T) -> Boolean): Se
     .flatten()
     .filter(predicate)
     .toSet()
+
+
+fun String.bitToInt() = this.toInt(2)
+
+fun String.bitToLong() = this.toLong(2)
