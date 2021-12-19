@@ -83,14 +83,14 @@ class SnailNumber(var value: String) {
         val regex = "\\[\\d+\\,\\d+\\]".toRegex()
         regex.find(value, startIndex = canExplode)?.also {
             val numberOnTheLeft = value.findFirstNumberOnTheLeft(canExplode)
-            val clearValue = it.value.clearPair()
+            val (left, right) = it.value.clearPair()
             numberOnTheLeft?.also { (range, num) ->
-                val newNum = clearValue.first + num
+                val newNum = left + num
                 value = value.replaceRange(range, newNum.toString())
             }
             val numberOnTheRight = value.findFirstNumberOnTheRight(it.range.last + 1)
             numberOnTheRight?.also { (range, num) ->
-                val newNum = clearValue.second + num
+                val newNum = right + num
                 value = value.replaceRange(range, newNum.toString())
             }
         }
@@ -128,8 +128,8 @@ class SnailNumber(var value: String) {
         var matches = regex.findAll(value).toList()
         while (matches.isNotEmpty()) {
             matches.forEach {
-                val clearValue = it.value.clearPair()
-                val sum = (clearValue.first * 3L) + (clearValue.second * 2L)
+                val (left, right) = it.value.clearPair()
+                val sum = (left * 3L) + (right * 2L)
                 value = value.replace(it.value, "$sum")
             }
             matches = regex.findAll(value).toList()
