@@ -72,17 +72,17 @@ class SnailNumber(var value: String) {
         }
     }
 
-    private fun split(canSplit: MatchResult) {
-        val numValue = canSplit.value.toFloat()
+    private fun split(splitMatch: MatchResult) {
+        val numValue = splitMatch.value.toFloat()
         val newLeft = floor(numValue / 2).toInt()
         val newRight = ceil(numValue / 2).toInt()
-        value = value.replaceRange(canSplit.range, "[$newLeft,$newRight]")
+        value = value.replaceRange(splitMatch.range, "[$newLeft,$newRight]")
     }
 
-    private fun explode(canExplode: Int) {
+    private fun explode(indexToExplode: Int) {
         val regex = "\\[\\d+\\,\\d+\\]".toRegex()
-        regex.find(value, startIndex = canExplode)?.also {
-            val numberOnTheLeft = value.findFirstNumberOnTheLeft(canExplode)
+        regex.find(value, startIndex = indexToExplode)?.also {
+            val numberOnTheLeft = value.findFirstNumberOnTheLeft(indexToExplode)
             val (left, right) = it.value.clearPair()
             numberOnTheLeft?.also { (range, num) ->
                 val newNum = left + num
@@ -94,7 +94,7 @@ class SnailNumber(var value: String) {
                 value = value.replaceRange(range, newNum.toString())
             }
         }
-        regex.find(value, startIndex = canExplode)?.also {
+        regex.find(value, startIndex = indexToExplode)?.also {
             value = value.replaceRange(it.range, "0")
         }
     }
