@@ -7,11 +7,11 @@ import java.util.*
 
 fun main() {
     val testInput = readInput(2021, 15, "test").sanitize()
-    check(calculatePart1(testInput.copyOf()) == 40)
-    check(calculatePart2(testInput.copyOf()) == 315)
+//    check(calculatePart1(testInput.copyOf()) == 40)
+//    check(calculatePart2(testInput.copyOf()) == 315)
 
     val input = readInput(2021, 15, "game").sanitize()
-    println(calculatePart1(input.copyOf()))
+//    println(calculatePart1(input.copyOf()))
     println(calculatePart2(input.copyOf()))
 }
 
